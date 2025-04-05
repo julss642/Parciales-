@@ -1,0 +1,5 @@
+/home/julss/Parciales-/build/CMakeFiles/edit_cache.dir
+/home/julss/Parciales-/build/CMakeFiles/rebuild_cache.dir
+/home/julss/Parciales-/build/Parcial2/CMakeFiles/CuentaBancaria.dir
+/home/julss/Parciales-/build/Parcial2/CMakeFiles/edit_cache.dir
+/home/julss/Parciales-/build/Parcial2/CMakeFiles/rebuild_cache.dir

@@ -1,5 +1,5 @@
 #include <iostream> // Biblioteca para operaciones estándar de entrada y salida
-#include "src/cuentaBancaria.cpp" // Inclusión de la implementación de la clase CuentaBancaria
+#include "src/CuentaBancaria.cpp" // Inclusión de la implementación de la clase CuentaBancaria
 #include <string> // Biblioteca para trabajar con cadenas de texto
 #include <vector> // Biblioteca para usar el contenedor vector
 #include <fstream> // Biblioteca para manejo de archivos
