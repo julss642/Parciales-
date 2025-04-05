@@ -1,95 +1,98 @@
-#include "../include/cuentaBancaria.h" // Incluir la definición de la clase CuentaBancaria
-#include <string> // Incluir string para manejar cadenas de texto
-#include <iostream> // Incluir iostream para entrada/salida
+#include "../include/CuentaBancaria.h" // Inclusión del encabezado de la clase CuentaBancaria
+#include <string> // Para usar objetos de tipo string
+#include <iostream> // Para operaciones de entrada y salida estándar
 
-// Constructor por defecto
+// Constructor sin parámetros: inicializa la cuenta en estado básico
 CuentaBancaria::CuentaBancaria(void) {
-    saldo = 0.0; // Inicializar saldo a 0
-    numeroCuenta = ""; // Inicializar nombre a una cadena vacía
-    cuentaBloqueada = false; // Inicializar cuenta no bloqueada
+    saldo = 0.0; // Saldo inicial en cero
+    numeroCuenta = ""; // Sin número asignado inicialmente
+    cuentaBloqueada = false; // La cuenta comienza desbloqueada
 }
 
-// Constructor con parámetros
+// Constructor con parámetros: configura los valores iniciales
 CuentaBancaria::CuentaBancaria(float s, string n) {
-    saldo = s; // Inicializar saldo con el valor proporcionado
-    numeroCuenta = n; // Inicializar nombre con el valor proporcionado
-    cuentaBloqueada = false; // Inicializar cuenta no bloqueada
+    saldo = s; // Se establece el saldo inicial
+    numeroCuenta = n; // Se asigna el número de cuenta
+    cuentaBloqueada = false; // La cuenta permanece activa
 }
 
-// Constructor de copia
+// Constructor de copia: clona los datos de otra cuenta
 CuentaBancaria::CuentaBancaria(const CuentaBancaria& c) {
-    saldo = c.saldo; // Copiar el valor de saldo
-    numeroCuenta = c.numeroCuenta; // Copiar el valor de nombre
-    cuentaBloqueada = c.cuentaBloqueada; // Copiar el estado de cuenta bloqueada
+    saldo = c.saldo; // Copia del saldo original
+    numeroCuenta = c.numeroCuenta; // Copia del número de cuenta
+    cuentaBloqueada = c.cuentaBloqueada; // Copia del estado de bloqueo
 }
 
-// Métodos Getter
+// Métodos de acceso (getters)
 float CuentaBancaria::obtenerSaldo() const {
-    return saldo; // Devolver el valor de saldo
+    return saldo; // Devuelve el saldo actual
 }
 
 string CuentaBancaria::getNumeroCuenta() const {
-    return numeroCuenta; // Devolver el valor de nombre
+    return numeroCuenta; // Devuelve el número de cuenta
 }
 
 void CuentaBancaria::setNumeroCuenta(string n) {
-    numeroCuenta = n; // Establecer el valor de nombre
+    numeroCuenta = n; // Cambia el número de cuenta
 }
 
 bool CuentaBancaria::getCuentaBloqueada() {
-    return cuentaBloqueada; // Devolver el estado de cuenta bloqueada
+    return cuentaBloqueada; // Informa si la cuenta está bloqueada
 }
 
-// Métodos adicionales
+// Método para depositar dinero en la cuenta
 void CuentaBancaria::depositar(float cantidad, ostream& os) {
     if (cuentaBloqueada) {
-        os << "La cuenta esta bloqueada, no se puede depositar." << endl; // Mensaje de error si la cuenta está bloqueada
+        os << "La cuenta esta bloqueada, no se puede depositar." << endl; // Depósito rechazado por bloqueo
     } else {
-        os << "Depositando " << cantidad << " en la cuenta." << endl; // Mensaje de éxito
-        saldo += cantidad; // Sumar la cantidad al saldo
+        os << "Depositando " << cantidad << " en la cuenta." << endl; // Confirmación del depósito
+        saldo += cantidad; // Aumento del saldo
     }
 }
 
+// Método para retirar dinero de la cuenta
 bool CuentaBancaria::retirar(float cantidad, ostream& os) {
     if (cuentaBloqueada) {
-        os << "La cuenta esta bloqueada, no se puede retirar." << endl; // Mensaje de error si la cuenta está bloqueada
-        return false; // No se puede retirar
+        os << "La cuenta esta bloqueada, no se puede retirar." << endl; // No se permite retiro
+        return false;
     } else if (cantidad > saldo) {
-        os << "No hay suficiente saldo para retirar " << cantidad << endl; // Mensaje de error si no hay suficiente saldo
-        os << "bloqueando cuenta..." << endl; // Mensaje de bloqueo
-        bloquearCuenta(os); // Bloquear la cuenta
-        return false; // No se puede retirar
+        os << "No hay suficiente saldo para retirar " << cantidad << endl; // Saldo insuficiente
+        os << "bloqueando cuenta..." << endl; // Acción de seguridad
+        bloquearCuenta(os); // Se bloquea la cuenta por intento fallido
+        return false;
     }
-    os << "Retirando " << cantidad << " de la cuenta." << endl; // Mensaje de éxito
-    saldo -= cantidad; // Restar la cantidad del saldo
-    return true; // Retiro exitoso
+    os << "Retirando " << cantidad << " de la cuenta." << endl; // Retiro exitoso
+    saldo -= cantidad; // Se descuenta el saldo
+    return true;
 }
 
+// Método para bloquear la cuenta
 bool CuentaBancaria::bloquearCuenta(ostream& os) {
     if (cuentaBloqueada) {
-        os << "La cuenta ya esta bloqueada." << endl; // Mensaje de error si la cuenta ya está bloqueada
-        return false; // No se puede bloquear
+        os << "La cuenta ya esta bloqueada." << endl; // No se puede volver a bloquear
+        return false;
     }
-    cuentaBloqueada = true; // Bloquear la cuenta
-    return cuentaBloqueada; // Se bloqueó con éxito
+    cuentaBloqueada = true; // Cambia el estado a bloqueado
+    return cuentaBloqueada;
 }
 
+// Método para desbloquear la cuenta
 bool CuentaBancaria::desbloquearCuenta(ostream& os) {
     if (!cuentaBloqueada) {
-        os << "La cuenta ya esta desbloqueada." << endl; // Mensaje de error si la cuenta ya está desbloqueada
-        return false; // No se puede desbloquear
+        os << "La cuenta ya esta desbloqueada." << endl; // Ya está desbloqueada
+        return false;
     }
-    cuentaBloqueada = false; // Desbloquear la cuenta
-    return !cuentaBloqueada; // Se desbloqueó con éxito
+    cuentaBloqueada = false; // Se reactiva la cuenta
+    return !cuentaBloqueada;
 }
 
-// Sobrecarga del operador de inserción en el flujo de salida
+// Definición del operador << para mostrar una cuenta por consola
 ostream& operator<<(ostream& os, const CuentaBancaria& c) {
-    os << "Numero de cuenta: " << c.numeroCuenta << ", Saldo: " << c.saldo; // Imprimir el número de cuenta y el saldo
-    return os; // Devolver el flujo de salida
+    os << "Numero de cuenta: " << c.numeroCuenta << ", Saldo: " << c.saldo; // Formato de impresión
+    return os;
 }
 
-// Método para mostrar información de la cuenta
+// Muestra detallada del estado de la cuenta
 void CuentaBancaria::display(ostream& os) {
-    os << "Numero de cuenta: " << numeroCuenta << ", Saldo: " << saldo << endl; // Imprimir el nombre y la información de la cuenta
+    os << "Numero de cuenta: " << numeroCuenta << ", Saldo: " << saldo << endl; // Presentación de datos
 }

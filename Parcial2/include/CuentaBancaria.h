@@ -4,105 +4,81 @@
 #include <iostream>
 using namespace std;
 
-/** 
- * @brief Clase CuentaBancaria
- * @author Ivan Daniel Carpentier y Jonatan García Vásquez
+/**
+ * @brief Clase que representa una cuenta bancaria
+ * @author Leydi Juliana Solorza Gonzalez
  * @date 2025-04-04
-*/
-
-
+ */
 class CuentaBancaria {
 private:
-    float saldo;  ///< Saldo de la cuenta (privado).
-    string numeroCuenta;  ///< Número de cuenta (privado).
-    bool cuentaBloqueada; ///< Indica si la cuenta está bloqueada (privado).
+    float saldo;                ///< Saldo actual de la cuenta.
+    string numeroCuenta;        ///< Número de cuenta.
+    bool cuentaBloqueada;       ///< Estado de bloqueo de la cuenta.
 
 public:
-    /**
-     * @brief Constructor por defecto.
-     * Inicializa el saldo en 0, y el numero de cuenta como vacio, y la cuenta desbloqueada.
-     */
-    CuentaBancaria(void); 
-    /**
-     * @brief Constructor con parametros.
-     * @param s saldo inicial de la cuenta.
-     * @param n numero de la cuenta.
-     * Inicializa el saldo y el numero de cuenta con los valores proporcionaddos, y la cuenta desbloqueada. 
-     */
+    /// Constructor por defecto. Inicializa con saldo 0, número vacío y cuenta desbloqueada.
+    CuentaBancaria();
+
+    /// Constructor con parámetros: establece saldo y número de cuenta iniciales, y deja la cuenta desbloqueada.
     CuentaBancaria(float s, string n);
+
     /**
-     * @brief Consctructor de copia.
-     * @param c objeto de la clase CuentaBancaria a copiar.
-     * Inicializa el saldo, el numero de cuenta y el estado de la cuenta bloqueada con los valores del objeto proporcionado.
-     * @note Este constructor permite crear una nueva cuenta bancaria como copia de otra existente.
-     * @warning Asegúrate de que el objeto proporcionado sea válido antes de usar este constructor.
+     * @brief Constructor de copia.
+     * @param c Objeto a copiar.
+     * Crea una nueva cuenta copiando saldo, número y estado de la cuenta dada.
      */
     CuentaBancaria(const CuentaBancaria& c);
 
-    /**
-     * @brief obtiene el saldo de la cuenta.
-     * @return saldo de la cuenta.
-     */
-    float obtenerSaldo() const; 
-    /**
-     * @brief obtiene el numero de cuenta.
-     * @return Número de cuenta como una cadena.
-     */
-    string getNumeroCuenta() const; 
+    /// @return Saldo actual de la cuenta.
+    float obtenerSaldo() const;
 
-    /**
-     * @brief Establece el número de cuenta.
-     * @param n Nuevo número de cuenta.
-     */
+    /// @return Número de cuenta.
+    string getNumeroCuenta() const;
+
+    /// Establece un nuevo número de cuenta.
     void setNumeroCuenta(string n);
 
-    /**
-     * @brief Verifica si la cuenta está bloqueada.
-     * @return `true` si la cuenta está bloqueada, `false` en caso contrario.
-     */
+    /// @return `true` si la cuenta está bloqueada, `false` en caso contrario.
     bool getCuentaBloqueada();
 
     /**
-     * @brief Deposita una cantidad en la cuenta.
-     * @param cantidad Cantidad a depositar.
-     * @param os Flujo de salida.
+     * @brief Realiza un depósito en la cuenta.
+     * @param cantidad Monto a depositar.
+     * @param os Flujo de salida para mostrar mensajes.
      */
     void depositar(float cantidad, ostream& os);
 
     /**
-     * @brief Retira una cantidad del saldo de la cuenta.
-     * @param cantidad Cantidad a retirar.
+     * @brief Intenta retirar un monto del saldo.
+     * @param cantidad Monto a retirar.
      * @param os Flujo de salida.
-     * @return `true` si la operación fue exitosa, `false` si no hay suficiente saldo o la cuenta está bloqueada.
+     * @return `true` si el retiro fue exitoso, `false` si no hay saldo suficiente o la cuenta está bloqueada.
      */
     bool retirar(float cantidad, ostream& os);
 
     /**
-     * @brief Bloquea la cuenta bancaria.
+     * @brief Bloquea la cuenta.
      * @param os Flujo de salida.
-     * @return `true` si la operación fue exitosa, `false` si la cuenta ya estaba bloqueada.
+     * @return `true` si la cuenta se bloqueó correctamente, `false` si ya estaba bloqueada.
      */
     bool bloquearCuenta(ostream& os);
 
     /**
-     * @brief Desbloquea la cuenta bancaria.
+     * @brief Desbloquea la cuenta.
      * @param os Flujo de salida.
-     * @return `true` si la operación fue exitosa, `false` si la cuenta ya estaba desbloqueada.
+     * @return `true` si la cuenta se desbloqueó correctamente, `false` si ya estaba desbloqueada.
      */
     bool desbloquearCuenta(ostream& os);
 
     /**
-     * @brief Sobrecarga del operador de inserción en el flujo de salida.
+     * @brief Imprime los datos de la cuenta usando el operador `<<`.
      * @param os Flujo de salida.
-     * @param cuenta Objeto de tipo CuentaBancaria a imprimir.
-     * @return Referencia al flujo de salida.
+     * @param cuenta Objeto a mostrar.
+     * @return Flujo de salida.
      */
     friend ostream& operator<<(ostream& os, const CuentaBancaria& cuenta);
 
-    /**
-     * @brief Muestra la información de la cuenta bancaria.
-     * @param os Flujo de salida.
-     */
+    /// Muestra en el flujo de salida toda la información de la cuenta.
     void display(ostream& os);
 };
 
